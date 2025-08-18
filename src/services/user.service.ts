@@ -15,7 +15,7 @@ import { AppError } from "../errors/app.errors";
 export class UserService {
   async create(user: IUserCreate): Promise<IUserResponse> {
     if (!user.name || !user.email || !user.password) {
-      throw new Error("Nome, email, e senha são obrigatórios")
+      throw new AppError(401, "Nome, email e senha são obrigatórios")
     }
 
     const existUser = await UserModel.findOne({ email: user.email })
