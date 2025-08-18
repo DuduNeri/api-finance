@@ -18,7 +18,23 @@ export interface IUserUpdate {
   password?: string;
 }
 
-export interface IUserResponse{
+export interface IUserResponse {
+  _id: string;
+  name: string;
+  email: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface IUserDelete{
+  _id: string;
+}
+
+export interface IUserFilter{
+  query: string;
+}
+
+export interface IUserFilterResponse{
   _id: string;
   name: string;
   email: string;
