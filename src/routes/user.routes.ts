@@ -8,5 +8,6 @@ const userController = new UserController(userService);
 
 UserRouter.post("/", userController.create.bind(userController));
 UserRouter.get("/:id", userController.getUser.bind(userController));
+UserRouter.delete("/:id", userController.deleteUserById.bind(userController));
 
 export default UserRouter;

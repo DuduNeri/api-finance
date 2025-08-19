@@ -9,6 +9,7 @@ import {
   IGetUser
 }
   from "../interfaces/user.interface";
+import mongoose from "mongoose";
 import UserModel from "../models/user.model";
 import bcrypt from "bcrypt";
 import { AppError } from "../errors/app.errors";
@@ -36,8 +37,11 @@ export class UserService {
       _id: newUser._id.toString(),
     };
   }
-  
-  async getUser(data: IGetUser): Promise<IUserResponse> {
+
+  async getUserById(data: IGetUser): Promise<IUserResponse> {
+    if (!mongoose.Types.ObjectId.isValid(data._id)) {
+      throw new AppError(400, "ID inválido");
+    }
     const user = await UserModel.findById(data._id);
     if (!user) {
       throw new AppError(404, "Usuário não encontrado");
@@ -47,6 +51,18 @@ export class UserService {
       ...userWithoutPassword,
       _id: user._id.toString(),
     };
-    
-  }  
+  }
+
+  async deleteUser(data: IUserDelete): Promise<string> {
+    if (!mongoose.Types.ObjectId.isValid(data._id)) {
+      throw new AppError(400, "ID inválido");
+    }
+
+    const user = await UserModel.findByIdAndDelete(data._id);
+    if (!user) {
+      throw new AppError(404, "Usuário não encontrado");
+    }
+
+    return user._id.toString();
+  }
 }

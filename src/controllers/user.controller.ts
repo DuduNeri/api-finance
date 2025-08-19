@@ -17,13 +17,38 @@ export class UserController {
       return res.status(500).json({ error: "Erro no controller" })
     }
   }
+
   async getUser(req: Request, res: Response) {
     const { id } = req.params;
     try {
-      const user = await this.userService.getUser({ _id: id });
+      const user = await this.userService.getUserById({ _id: id });
       return res.status(200).json(user)
     } catch (error) {
+      if (error instanceof AppError) {
+        return res.status(error.statusCode).json({ error: error.message });
+      }
       return res.status(500).json({ error: "Erro no controller" })
+    }
+  }
+
+  async deleteUserById(req: Request, res: Response) {
+    try {
+      const deletedId = await this.userService.deleteUser({ _id: req.params.id });
+
+      return res.status(200).json({
+        message: "Usuário deletado com sucesso",
+        deletedId,
+      });
+    } catch (error) {
+      if (error instanceof AppError) {
+        return res
+          .status(error.statusCode)
+          .json({ error: error.message }); // ✅ retorna JSON pro cliente
+      }
+
+      return res
+        .status(500)
+        .json({ error: "Erro interno no servidor" });
     }
   }
 }
