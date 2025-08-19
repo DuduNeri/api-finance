@@ -12,6 +12,10 @@ export interface IUserCreate {
   password: string;
 }
 
+export interface IGetUser {
+  _id: string;
+}
+
 export interface IUserUpdate {
   name?: string;
   email?: string;

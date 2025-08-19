@@ -5,7 +5,8 @@ import {
   IUserResponse,
   IUserDelete,
   IUserFilter,
-  IUserFilterResponse
+  IUserFilterResponse,
+  IGetUser
 }
   from "../interfaces/user.interface";
 import UserModel from "../models/user.model";
@@ -35,4 +36,17 @@ export class UserService {
       _id: newUser._id.toString(),
     };
   }
+  
+  async getUser(data: IGetUser): Promise<IUserResponse> {
+    const user = await UserModel.findById(data._id);
+    if (!user) {
+      throw new AppError(404, "Usuário não encontrado");
+    }
+    const { password, ...userWithoutPassword } = user.toObject();
+    return {
+      ...userWithoutPassword,
+      _id: user._id.toString(),
+    };
+    
+  }  
 }

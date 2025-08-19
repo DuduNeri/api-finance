@@ -7,5 +7,6 @@ const userService = new UserService();
 const userController = new UserController(userService); 
 
 UserRouter.post("/", userController.create.bind(userController));
+UserRouter.get("/:id", userController.getUser.bind(userController));
 
 export default UserRouter;

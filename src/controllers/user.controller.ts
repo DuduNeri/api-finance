@@ -17,4 +17,13 @@ export class UserController {
       return res.status(500).json({ error: "Erro no controller" })
     }
   }
+  async getUser(req: Request, res: Response) {
+    const { id } = req.params;
+    try {
+      const user = await this.userService.getUser({ _id: id });
+      return res.status(200).json(user)
+    } catch (error) {
+      return res.status(500).json({ error: "Erro no controller" })
+    }
+  }
 }
