@@ -53,16 +53,19 @@ export class UserService {
     };
   }
 
-  async deleteUser(data: IUserDelete): Promise<string> {
+  async deleteUser(data: IUserDelete): Promise<IUserResponse> {
     if (!mongoose.Types.ObjectId.isValid(data._id)) {
       throw new AppError(400, "ID inválido");
     }
-
-    const user = await UserModel.findByIdAndDelete(data._id);
-    if (!user) {
-      throw new AppError(404, "Usuário não encontrado");
+   
+    const deletedUser = await UserModel.findByIdAndDelete(data._id);
+    if (!deletedUser) {
+      throw new Error("Usuário não encontrado");
     }
-
-    return user._id.toString();
+    const { password, ...userWithoutPassword } = deletedUser.toObject();
+    return {
+      ...userWithoutPassword,
+      _id: deletedUser._id.toString(),
+    };
   }
 }
