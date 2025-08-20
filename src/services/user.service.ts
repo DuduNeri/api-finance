@@ -70,4 +70,10 @@ export class UserService {
     };
   }
 
+  async updateUser(id: string, data: IUserUpdate): Promise<IUserResponse> {
+    const user = await UserModel.findByIdAndUpdate(id, data, {
+      new: true,
+    });
+    return user;
+  }
 }
