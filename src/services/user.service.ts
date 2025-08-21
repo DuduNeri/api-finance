@@ -1,3 +1,4 @@
+import { UserController } from './../controllers/user.controller';
 import {
   IUser,
   IUserCreate,
@@ -53,6 +54,11 @@ export class UserService {
     };
   }
 
+  async getAllUsers(data: IGetUser): Promise<IUserResponse> {
+    const users = await UserModel.find().select("-password");
+    return users;
+  }
+
   async deleteUser(data: IUserDelete): Promise<IUserResponse> {
     if (!mongoose.Types.ObjectId.isValid(data._id)) {
       throw new AppError(400, "ID inválido");
@@ -60,7 +66,7 @@ export class UserService {
 
     const deletedUser = await UserModel.findByIdAndDelete(data._id);
     if (!deletedUser) {
-      throw new AppError(404, "Usuário não encontrado"); 
+      throw new AppError(404, "Usuário não encontrado");
     }
 
     const { password, ...userWithoutPassword } = deletedUser.toObject();
@@ -70,7 +76,7 @@ export class UserService {
     };
   }
 
-  async updateUser(id: string, data: IUserUpdate): Promise<IUserResponse> {
+  async updateUser(id: string, data: IUserUpdate) {
     const user = await UserModel.findByIdAndUpdate(id, data, {
       new: true,
     });

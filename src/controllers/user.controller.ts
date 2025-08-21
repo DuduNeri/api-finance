@@ -14,7 +14,7 @@ export class UserController {
       if (error instanceof AppError) {
         return res.status(error.statusCode).json({ error: error.message });
       }
-      return res.status(500).json({ error: "Erro no controller" })
+      return res.status(500).json({ error: "Erro interno no servidor" })
     }
   }
 
@@ -27,7 +27,7 @@ export class UserController {
       if (error instanceof AppError) {
         return res.status(error.statusCode).json({ error: error.message });
       }
-      return res.status(500).json({ error: "Erro no controller" })
+      return res.status(500).json({ error: "Erro interno no servidor" })
     }
   }
 
@@ -45,6 +45,18 @@ export class UserController {
       }
 
       return res.status(500).json({ error: "Erro interno no servidor" });
+    }
+  }
+
+  async updateUser(req: Request, res: Response) {
+    try {
+      const updatedUser = await this.userService.updateUser(req.params.id, req.body);
+      return res.status(200).json(updatedUser);
+    } catch (error) {
+      if(error instanceof AppError){
+        return res.status(error.statusCode).json({ error: error.message })
+      }
+      return res.status(500).json({ error: "Erro interno no servidor" })
     }
   }
 }
