@@ -1,5 +1,3 @@
-import { Types } from 'mongoose';
-
 export interface IFinanceCreate {
   userId: string;
   accountId: string;

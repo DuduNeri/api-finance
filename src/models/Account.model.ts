@@ -1,6 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-// Interface para o documento Account
 export interface IAccount extends Document {
   userId: mongoose.Types.ObjectId;
   name: string;
@@ -10,14 +9,13 @@ export interface IAccount extends Document {
   updatedAt: Date;
 }
 
-// Schema do Mongoose para Account
 const accountSchema = new Schema<IAccount>(
   {
     userId: {
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: [true, 'User ID is required'],
-      index: true, // Índice para consultas mais rápidas
+      index: true, 
     },
     name: {
       type: String,
@@ -41,12 +39,10 @@ const accountSchema = new Schema<IAccount>(
     },
   },
   {
-    timestamps: true, // Adiciona createdAt e updatedAt automaticamente
+    timestamps: true, 
   }
 );
 
-// Índice composto para buscas por userId e name
 accountSchema.index({ userId: 1, name: 1 }, { unique: true });
 
-// Exportar o modelo
 export const Account = mongoose.model<IAccount>('Account', accountSchema);

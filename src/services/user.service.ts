@@ -11,7 +11,7 @@ import {
 }
   from "../interfaces/user.interface";
 import mongoose from "mongoose";
-import UserModel from "../models/user.model";
+import UserModel from "../models/User.model";
 import bcrypt from "bcrypt";
 import { AppError } from "../errors/app.errors";
 
