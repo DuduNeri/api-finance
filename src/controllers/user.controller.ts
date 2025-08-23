@@ -31,6 +31,18 @@ export class UserController {
     }
   }
 
+  async getAllUsers(req: Request, res: Response) {
+    try {
+      const users = await this.userService.getAllUsers();
+      return res.status(200).json(users);
+    } catch (error) {
+      if(error instanceof AppError){
+        return res.status(error.statusCode).json({ error: error.message })
+      }
+      return res.status(500).json({ error: "Erro interno no servidor" })
+    }
+  }
+
   async deleteUserById(req: Request, res: Response) {
     try {
       const deletedId = await this.userService.deleteUser({ _id: req.params.id });

@@ -54,7 +54,7 @@ export class UserService {
     };
   }
 
-  async getAllUsers(data: IGetUser): Promise<IUserResponse> {
+  async getAllUsers(): Promise<IUser[]> {
     const users = await UserModel.find().select("-password");
     return users;
   }

@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/test", testRoute)
-app.use("/users", UserRouter)
+app.use("/user", UserRouter)
 
 connectDB();
 
